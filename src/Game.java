@@ -12,4 +12,18 @@ public class Game {
         player.chooseWeapon();
         player.chooseArea();
     }
+
+    static String nextLine() {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.nextLine();
+        if (s.startsWith("/")) {
+            if (s.equals("/help")) {
+                System.out.println("These are the available commands:");
+                System.out.println("/help => List available commands.");
+            }
+            return nextLine();
+        } else {
+            return s;
+        }
+    }
 }

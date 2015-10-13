@@ -1,17 +1,24 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Created by landonkail on 10/9/15.
  */
-public class Player {
-    String name;
+public class Player extends Character {
     String weapon;
     String area;
+    ArrayList items = new ArrayList();
+
+    public Player () {
+        health = 100;
+        damage = 20;
+    }
+
 
     void chooseName() {
         System.out.println("What is your name, traveler?");
         name = Game.nextLine();
-        System.out.println("Good luck, " + name);
+        System.out.println(String.format("Good luck, %s", name));
     }
 
     void chooseWeapon() throws Exception {
@@ -39,6 +46,15 @@ public class Player {
             System.out.println("Entering the tunnel...");
         } else {
             throw new Exception("invalid area.");
+        }
+    }
+
+    void findItem(String item) {
+        System.out.println("Found item!  Pick it up? [y/n]");
+        String s = Game.nextLine();
+        if (s.equals("y")) {
+            System.out.println(String.format("Yodu found a %s",  item));
+            items.add(item);
         }
     }
 }

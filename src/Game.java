@@ -1,3 +1,9 @@
+import jodd.json.JsonParser;
+import jodd.json.JsonSerializer;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 /**
@@ -7,13 +13,15 @@ public class Game {
     static Player player;
     public static void main (String[] args) throws Exception {
         System.out.println("Welcome to my text adventure.");
-        player = new Player();
+        player = loadGame();
 
-        while (true) {
+        if (player == null) {
+            player = new Player();
             player.chooseName();
             player.chooseWeapon();
             player.chooseArea();
             player.findItem("Shield");
+        }
 
             Weapon ogreWeapon = new Weapon();
             ogreWeapon.name = "Club";
@@ -21,7 +29,8 @@ public class Game {
             Enemy ogre = new Enemy("Ogre", 50, 5, ogreWeapon);
 
             player.battle(ogre);
-        }
+            saveGame();
+
     }
     static String nextLine() {
         Scanner scanner = new Scanner(System.in);
@@ -44,5 +53,37 @@ public class Game {
         } else {
             return s;
         }
+    }
+
+    static void saveGame() {
+        File f = new File("save.json");
+        JsonSerializer serializer = new JsonSerializer();
+        String contentToSave = serializer.serialize(player);
+
+        try {
+            FileWriter fw = new FileWriter(f);
+            fw.write(contentToSave);
+            fw.close();
+        } catch (Exception e) {
+
+        }
+    }
+
+    static Player loadGame() {
+        try {
+            File f = new File("save.json");
+            FileReader fr = new FileReader(f);
+            int fileSize = (int) f.length();
+            char[] contents = new char[fileSize];
+            fr.read(contents);
+            String fileContents = new String(contents);
+            // Parsing
+            JsonParser parser = new JsonParser();
+            return parser.parse(fileContents, Player.class);
+        } catch (Exception e) {
+            return null;
+        }
+
+
     }
 }

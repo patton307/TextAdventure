@@ -5,7 +5,6 @@ import java.util.Scanner;
  * Created by landonkail on 10/9/15.
  */
 public class Player extends Character {
-    String weapon;
     String area;
     ArrayList items = new ArrayList();
 
@@ -24,15 +23,20 @@ public class Player extends Character {
     void chooseWeapon() throws Exception {
         System.out.println("[1] Pick up the sword");
         System.out.println("[2] Pick up a mallet");
-        weapon = Game.nextLine();
-        int weaponNum = Integer.valueOf(weapon);
-        if (weaponNum == 1) {
-            System.out.println("That's a fine sword!");
-        } else if (weaponNum == 2) {
-            System.out.println("That's a heavy mallet!");
+        int choiceNum = Integer.valueOf(Game.nextLine());
+        if (choiceNum == 1) {
+            weapon = new Weapon();
+            weapon.name = "Sword";
+            weapon.damage = 10;
+        } else if (choiceNum == 2) {
+            weapon = new Weapon();
+            weapon.name = "Mallet";
+            weapon.damage = 10;
         } else {
             throw new Exception("Invalid weapon.");
         }
+        System.out.println(String.format("That's a fine %s!", weapon.name.toLowerCase()));
+
     }
 
     void chooseArea() throws Exception {

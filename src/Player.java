@@ -6,7 +6,7 @@ import java.util.Scanner;
  */
 public class Player extends Character {
     String area;
-    ArrayList items = new ArrayList();
+    ArrayList<String> = new ArrayList();
 
     public Player () {
         health = 100;
